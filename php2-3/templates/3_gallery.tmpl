@@ -1,0 +1,29 @@
+<html>
+	<head>
+    	<title>{{ title }}</title>
+		<link rel="stylesheet" type="text/css" href="3_style.css">
+	</head>
+	<body>
+	    {% include '3_header.tmpl' %}
+		<p>Welcome to the {{ title }}!</p>
+
+		<div class="main-block">
+
+	    {% if images %}
+
+			{% for image in images %}
+
+				<div class="gal-block">
+					<a href="{{ imgpath }}{{ image.filename }}"><img class='pic' src="{{ thumbpath }}{{ image.filename }}"></a><br>
+					Clicks: {{ image.views }}<br>
+					ID: {{ image.id }}<br>
+				</div>
+			{% endfor %}
+
+			{% else %}
+			    <p>Gallery is empty!</p>
+		{% endif %}
+
+		</div>
+	</body>
+</html>
