@@ -1,0 +1,7 @@
+{% for image in images %}
+	<div class="post gal-block" id="post_{{ image.id }}">
+		<a href="{{ imgpath }}{{ image.filename }}"><img class='pic' src="{{ thumbpath }}{{ image.filename }}"></a><br>
+		Clicks: {{ image.views }}<br>
+		ID: {{ image.id }}<br>
+	</div>
+{% endfor %}

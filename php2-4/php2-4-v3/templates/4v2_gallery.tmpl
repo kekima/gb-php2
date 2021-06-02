@@ -1,0 +1,74 @@
+<!--
+Made using this tutorial 
+https://www.cluemediator.com/load-more-data-from-the-database-using-ajax-jquery-in-php-with-mysql
+-->
+
+<html>
+  <head>
+    <title>{{ title }}</title>
+
+    <link href="4v2_style.css" type="text/css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   </head>
+	<body>
+	    {% include '4v2_header.tmpl' %}
+		<p>Welcome to the {{ title }}!</p>
+
+
+        <div class="postList main-block">
+
+        {% if images %}
+
+          {% for image in images %}
+
+            <div class="gal-block">
+              <a href="{{ imgpath }}{{ image.filename }}" target="_blank"><img class='pic' src="{{ thumbpath }}{{ image.filename }}"></a><br>
+              Clicks: {{ image.views }}<br>
+              ID: {{ image.id }}<br>
+            </div>
+          {% endfor %}
+
+          {% else %}
+              <p>Gallery is empty!</p>
+        {% endif %}
+
+        </div>
+
+        <div class="main-block loadmore">
+          <input type="button" id="loadBtn" value="Load More">
+          <input type="hidden" id="row" value="0">
+          <input type="hidden" id="postCount" value="{{ totalImages }}">
+        </div> <br>
+
+
+<script>
+  $(document).ready(function () {
+    $(document).on('click', '#loadBtn', function () {
+      var row = Number($('#row').val());
+      var count = Number($('#postCount').val());
+      var limit = 2;
+      row = row + limit;
+      $('#row').val(row);
+      $("#loadBtn").val('Loading...');
+ 
+      $.ajax({
+        type: 'POST',
+        url: 'loadmore-data.php',
+        data: 'row=' + row,
+        success: function (data) {
+          var rowCount = row + limit;
+          $('.postList').append(data);
+          if (rowCount >= count) {
+            $('#loadBtn').css("display", "none"); 
+          } else {
+            $("#loadBtn").val('Load More');
+          }
+        }
+      });
+    });
+  });
+</script>
+
+
+    </body>
+</html>
